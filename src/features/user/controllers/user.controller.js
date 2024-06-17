@@ -40,7 +40,12 @@ class UserController {
 
       // token creation
       const token = jwt.sign(
-        { name: user.name, email: user.email, gender: user.gender },
+        {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          gender: user.gender,
+        },
         process.env.SECRET_KEY
       );
 
@@ -75,8 +80,16 @@ class UserController {
     }
   };
 
-  getUserDetails = async () => {
+  getUserDetails = async (req, res, next) => {
     try {
+      const { id } = req.params;
+      const user = await this.userRepository.getUser(id);
+
+      if (!user) {
+        throw new ApplicationError("user not found", 404);
+      }
+
+      res.status(200).json({ success: true, user });
     } catch (error) {
       console.log(error);
       next(error);

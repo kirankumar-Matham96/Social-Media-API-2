@@ -20,6 +20,8 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
       return res.status(400).json({ success: false, error: err.message });
     }
 
+    console.log("error in handler => ", err);
+
     return res.status(500).json({
       success: false,
       error: "Something went wrong... Please try again later!",

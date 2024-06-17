@@ -50,8 +50,22 @@ class UserRepository {
   signOut = async () => {
     // can store the token to blacklist
     // can expire/invalidate the token
-    // 
-  }
+    //
+  };
+
+  getUser = async (userId) => {
+    try {
+      const user = await this.userModel.findById(userId);
+      console.log({ user });
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw new ApplicationError(
+        "something went wrong while fetching user details...",
+        500
+      );
+    }
+  };
 }
 
 export default UserRepository;
