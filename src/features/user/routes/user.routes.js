@@ -15,6 +15,7 @@ router.post(
   (req, res, next) => userValidations.registrationValidation(req, res, next),
   (req, res, next) => userController.registerUser(req, res, next)
 );
+
 router.post(
   "/signin",
   (req, res, next) => userValidations.loginValidation(req, res, next),

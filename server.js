@@ -5,6 +5,7 @@ import express from "express";
 // module imports
 import { connectToDb } from "./src/config/mongoose.config.js";
 import userRouter from "./src/features/user/routes/user.routes.js";
+import { errorHandlingMiddleware } from "./src/middlewares/errorHandling/customErrorHandling.middleware.js";
 
 // initializing express
 const app = express();
@@ -23,6 +24,12 @@ app.use("/api/users", userRouter);
 // app.use("/api/likes", likesRouter);
 // app.use("/api/friends", friendshipRouter);
 // app.use("/api/otp", otpRouter);
+
+// application level error handling
+app.use(errorHandlingMiddleware);
+
+// 404 errors
+// app.user()
 
 // setting the listener
 app.listen(PORT, () => {

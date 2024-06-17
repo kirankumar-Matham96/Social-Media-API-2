@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 // module imports
 import { userSchema } from "../schemas/user.schema.js";
+import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 
 class UserRepository {
   constructor() {
@@ -15,7 +16,13 @@ class UserRepository {
       return userAdded;
     } catch (error) {
       console.log({ error });
-      throw error;
+      if (error.code === 11000) {
+        throw new ApplicationError("Email exists already. Please login!", 409);
+      }
+      throw new ApplicationError(
+        "something went wrong while signing up...",
+        500
+      );
     }
   };
 
@@ -23,11 +30,15 @@ class UserRepository {
     try {
       const user = await this.userModel.findOne({ email });
       if (!user) {
-        return false;
+        throw new ApplicationError("user not found", 404);
       }
       return user;
     } catch (error) {
       console.log(error);
+      throw new ApplicationError(
+        "something went wrong while signing in...",
+        500
+      );
     }
   };
 }
