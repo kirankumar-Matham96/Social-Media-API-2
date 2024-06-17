@@ -1,12 +1,19 @@
+// package imports
 import express from "express";
 
+// module imports
+import UserValidations from "../../../middlewares/validations/user/registration.middleware.js";
 import UserController from "../controllers/user.controller.js";
+
 const router = express.Router();
 
 const userController = new UserController();
+const userValidations = new UserValidations();
 
-router.post("/signup", (req, res, next) =>
-  userController.registerUser(req, res, next)
+router.post(
+  "/signup",
+  (req, res, next) => userValidations.registrationValidation(req, res, next),
+  (req, res, next) => userController.registerUser(req, res, next)
 );
 router.post("/signin", (req, res, next) =>
   userController.loginUser(req, res, next)
