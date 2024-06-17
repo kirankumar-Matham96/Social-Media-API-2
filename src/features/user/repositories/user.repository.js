@@ -35,12 +35,23 @@ class UserRepository {
       return user;
     } catch (error) {
       console.log(error);
+
+      if (error instanceof ApplicationError) {
+        throw error;
+      }
+
       throw new ApplicationError(
         "something went wrong while signing in...",
         500
       );
     }
   };
+
+  signOut = async () => {
+    // can store the token to blacklist
+    // can expire/invalidate the token
+    // 
+  }
 }
 
 export default UserRepository;

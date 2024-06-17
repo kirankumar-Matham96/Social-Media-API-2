@@ -24,7 +24,6 @@ class UserController {
         .json({ success: true, message: "user added successfully", newUser });
     } catch (error) {
       console.log(error);
-      // res.status(500).json({ success: false, error: error.message });
       next(error);
     }
   };
@@ -33,25 +32,20 @@ class UserController {
     try {
       const { email, password } = req.body;
       const user = await this.userRepository.signIn(email);
-      // if (!user) {
-      //   return res
-      //     .status(400)
-      //     .json({ success: false, error: "user not found" });
-      // }
-
       const isValidUser = await bcrypt.compare(password, user.password);
 
       if (!isValidUser) {
         throw new ApplicationError("invalid credentials", 400);
-        // return res
-        //   .status(400)
-        //   .json({ success: false, error: "invalid credentials" });
       }
 
+      // token creation
       const token = jwt.sign(
         { name: user.name, email: user.email, gender: user.gender },
         process.env.SECRET_KEY
       );
+
+      // storing the token in cookies
+      res.cookie("token", token, { maxAge: 60 * 60, httpOnly: true });
 
       res
         .status(200)
@@ -62,8 +56,11 @@ class UserController {
     }
   };
 
-  logoutUser = async (req, res, next) => {
+  logoutUser = (req, res, next) => {
     try {
+      // remove the token from the client side cookies
+      res.clearCookie("token");
+      res.status(200).json({ success: true, message: "logged out!" });
     } catch (error) {
       console.log(error);
       next(error);

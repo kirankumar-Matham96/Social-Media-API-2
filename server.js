@@ -1,21 +1,26 @@
 // package imports
 import "dotenv/config";
 import express from "express";
+import cookieParser from "cookie-parser";
 
 // module imports
 import { connectToDb } from "./src/config/mongoose.config.js";
 import userRouter from "./src/features/user/routes/user.routes.js";
 import { errorHandlingMiddleware } from "./src/middlewares/errorHandling/customErrorHandling.middleware.js";
+import { auth } from "./src/middlewares/authorization/auth.middleware.js";
 
 // initializing express
 const app = express();
 
 // setting the port number
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 // setting up data parsers to read data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// setting cookie parser middleware to app level
+app.use(cookieParser());
 
 // routes
 app.use("/api/users", userRouter);
