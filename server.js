@@ -1,8 +1,18 @@
+// package imports
 import express from "express";
+import "dotenv/config";
 
+// module imports
+import { connectToDb } from "./src/config/mongoose.config.js";
+import userRouter from "./src/features/user/routes/user.routes.js";
+
+// initializing express
 const app = express();
-const PORT = 3000;
 
+// setting the port number
+const PORT = process.env.PORT;
+
+// setting up data parsers to read data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,6 +24,9 @@ app.use("/api/users", userRouter);
 // app.use("/api/friends", friendshipRouter);
 // app.use("/api/otp", otpRouter);
 
+// setting the listener
 app.listen(PORT, () => {
+  // connecting to the database
+  connectToDb();
   console.log(`server is running at ${PORT}`);
 });
