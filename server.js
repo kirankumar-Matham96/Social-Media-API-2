@@ -1,6 +1,6 @@
 // package imports
-import express from "express";
 import "dotenv/config";
+import express from "express";
 
 // module imports
 import { connectToDb } from "./src/config/mongoose.config.js";

@@ -1,5 +1,7 @@
 // package imports
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+// import "dotenv/config";
 
 // module imports
 import UserRepository from "../repositories/user.repository.js";
@@ -28,6 +30,30 @@ class UserController {
 
   loginUser = async (req, res, next) => {
     try {
+      const { email, password } = req.body;
+      const user = await this.userRepository.signIn(email);
+      if (!user) {
+        return res
+          .status(400)
+          .json({ success: false, error: "user not found" });
+      }
+
+      const isValidUser = await bcrypt.compare(password, user.password);
+
+      if (!isValidUser) {
+        return res
+          .status(400)
+          .json({ success: false, error: "invalid credentials" });
+      }
+    
+      const token = jwt.sign(
+        { name: user.name, email: user.email, gender: user.gender },
+        process.env.SECRET_KEY
+      );
+
+      res
+        .status(200)
+        .json({ success: true, message: "logged in successfully", token });
     } catch (error) {
       console.log(error);
     }

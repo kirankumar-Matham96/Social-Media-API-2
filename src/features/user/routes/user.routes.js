@@ -15,8 +15,10 @@ router.post(
   (req, res, next) => userValidations.registrationValidation(req, res, next),
   (req, res, next) => userController.registerUser(req, res, next)
 );
-router.post("/signin", (req, res, next) =>
-  userController.loginUser(req, res, next)
+router.post(
+  "/signin",
+  (req, res, next) => userValidations.loginValidation(req, res, next),
+  (req, res, next) => userController.loginUser(req, res, next)
 );
 router.get("/logout", (req, res, next) =>
   userController.logoutUser(req, res, next)
