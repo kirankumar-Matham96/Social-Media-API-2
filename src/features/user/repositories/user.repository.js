@@ -47,11 +47,11 @@ class UserRepository {
     }
   };
 
-  signOut = async () => {
-    // can store the token to blacklist
-    // can expire/invalidate the token
-    //
-  };
+  // signOut = async () => {
+  //   // can store the token to blacklist
+  //   // can expire/invalidate the token
+  //   //
+  // };
 
   getUser = async (userId) => {
     try {

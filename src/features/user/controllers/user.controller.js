@@ -49,9 +49,6 @@ class UserController {
         process.env.SECRET_KEY
       );
 
-      // storing the token in cookies
-      res.cookie("token", token, { maxAge: 60 * 60, httpOnly: true });
-
       res
         .status(200)
         .json({ success: true, message: "logged in successfully", token });
@@ -63,8 +60,6 @@ class UserController {
 
   logoutUser = (req, res, next) => {
     try {
-      // remove the token from the client side cookies
-      res.clearCookie("token");
       res.status(200).json({ success: true, message: "logged out!" });
     } catch (error) {
       console.log(error);

@@ -32,11 +32,15 @@ router.get(
   (req, res, next) => auth(req, res, next),
   (req, res, next) => userController.getUserDetails(req, res, next)
 );
-router.get("/get-all-details", (req, res, next) =>
-  userController.getAllUsersDetails(req, res, next)
+router.get(
+  "/get-all-details",
+  (req, res, next) => auth(req, res, next),
+  (req, res, next) => userController.getAllUsersDetails(req, res, next)
 );
-router.get("/update-details/:id", (req, res, next) =>
-  userController.UpdateUserDetails(req, res, next)
+router.get(
+  "/update-details/:id",
+  (req, res, next) => auth(req, res, next),
+  (req, res, next) => userController.UpdateUserDetails(req, res, next)
 );
 
 export default router;
