@@ -1,6 +1,17 @@
+// package imports
 import { body, validationResult } from "express-validator";
 
+/**
+ * To handle validations of the input data
+ */
 class UserValidations {
+  /**
+   *  To validate registration form data
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   * @returns Response Object | null
+   */
   registrationValidation = async (req, res, next) => {
     try {
       await body("name")
@@ -37,6 +48,13 @@ class UserValidations {
     }
   };
 
+  /**
+   *  To validate login form data
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   * @returns Response Object | null
+   */
   loginValidation = async (req, res, next) => {
     try {
       await body("email")
