@@ -6,14 +6,23 @@ import { commentSchema } from "../schemas/comment.schema.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 import { postsSchema } from "../../posts/schemas/post.schema.js";
 
+// model initializations
 const CommentModel = new mongoose.model("Comments", commentSchema);
 const PostModel = new mongoose.model("Posts", postsSchema);
 
+/**
+ * Repository to handle all the comment related database operation
+ */
 class CommentRepository {
+  /**
+   * To get all the comments related to a post
+   * @param {post id} postId
+   * @returns Array
+   */
   get = async (postId) => {
     try {
       const comments = await CommentModel.find({ postId }).populate("userId");
-      const modifiedComment = comments.map((comment) => ({
+      const modifiedComments = comments.map((comment) => ({
         commentId: comment._id,
         postId: comment.postId,
         user: {
@@ -24,7 +33,7 @@ class CommentRepository {
         commentContent: comment.comment,
         likes: comment.likes,
       }));
-      return modifiedComment;
+      return modifiedComments;
     } catch (error) {
       console.log(error);
       throw new ApplicationError(
@@ -34,6 +43,13 @@ class CommentRepository {
     }
   };
 
+  /**
+   * To add a new comment
+   * @param {logged in user id} userId
+   * @param {post id to which comment should be added} postId
+   * @param {comment content} comment
+   * @returns Object
+   */
   create = async (userId, postId, comment) => {
     try {
       // creating a new comment
@@ -55,6 +71,13 @@ class CommentRepository {
     }
   };
 
+  /**
+   * To update a comment
+   * @param {logged in user id} userId
+   * @param {id of the comment to be updated} commentId
+   * @param {comment content} comment
+   * @returns Object
+   */
   update = async (userId, commentId, comment) => {
     try {
       const foundComment = await CommentModel.findById(commentId);
@@ -87,6 +110,11 @@ class CommentRepository {
     }
   };
 
+  /**
+   * To delete a comment
+   * @param {id of the comment to be deleted} commentId
+   * @returns Object
+   */
   delete = async (commentId) => {
     try {
       // deleting the comment
@@ -122,6 +150,7 @@ class CommentRepository {
         );
       }
 
+      // deleting the comment
       foundPost.comments.splice(commentIndex, 1);
       await foundPost.save();
 

@@ -1,11 +1,20 @@
 // module imports
 import CommentRepository from "../repositories/comment.repository.js";
 
+/**
+ * Controller to handle requests related to comments
+ */
 class CommentController {
   constructor() {
     this.commentRepository = new CommentRepository();
   }
 
+  /**
+   * To create a new comment
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   createComment = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -28,6 +37,12 @@ class CommentController {
     }
   };
 
+  /**
+   * To update a comment
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   updateComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;
@@ -51,6 +66,12 @@ class CommentController {
     }
   };
 
+  /**
+   * To get all comment
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getComments = async (req, res, next) => {
     try {
       const { postId } = req.params;
@@ -67,6 +88,12 @@ class CommentController {
     }
   };
 
+  /**
+   * To delete a comment
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   deleteComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;

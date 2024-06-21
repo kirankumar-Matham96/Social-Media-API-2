@@ -1,11 +1,20 @@
 // module imports
 import FriendshipRepository from "../repositories/friendship.repository.js";
 
+/**
+ * Controller to handle all the requests related to the friendship
+ */
 class FriendshipController {
   constructor() {
     this.friendshipRepository = new FriendshipRepository();
   }
 
+  /**
+   * To send a friend request
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   addRequestToPendingList = async (req, res, next) => {
     try {
       const { userId: requestingUserId } = req;
@@ -23,6 +32,12 @@ class FriendshipController {
     }
   };
 
+  /**
+   * To get all friends
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getFriendsList = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -39,6 +54,12 @@ class FriendshipController {
     }
   };
 
+  /**
+   * To get all friend requests
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getRequests = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -46,7 +67,6 @@ class FriendshipController {
         userId
       );
 
-      console.log("\n\n\nin friend controller => ", requestsList, "\n\n\n");
       res.status(200).json({
         success: true,
         message: "Requests fetched successfully",
@@ -58,6 +78,12 @@ class FriendshipController {
     }
   };
 
+  /**
+   * To add or remove friend
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   toggleFriendship = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -77,6 +103,12 @@ class FriendshipController {
     }
   };
 
+  /**
+   * To accept or reject friend request
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   acceptOrRejectFriendRequest = async (req, res, next) => {
     try {
       const { userId } = req;

@@ -5,9 +5,19 @@ import mongoose from "mongoose";
 import { friendshipSchema } from "../schemas/friendship.schema.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 
+// model initialization
 const FriendshipModel = new mongoose.model("Friendship", friendshipSchema);
 
+/**
+ * Repository to handle all friendship related database operations
+ */
 class FriendshipRepository {
+  /**
+   * To send the friend request
+   * @param {id of the user who send the friend request} requesterId 
+   * @param {id of the user who receive the friend request} requestedToId 
+   * @returns 
+   */
   addRequest = async (requesterId, requestedToId) => {
     try {
       const userWhoGotRequest = await FriendshipModel.findOne({
