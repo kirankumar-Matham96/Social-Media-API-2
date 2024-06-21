@@ -8,9 +8,14 @@ class CommentController {
 
   createComment = async (req, res, next) => {
     try {
+      const { userId } = req;
       const { postId } = req.params;
-      const { comment } = req.body;
-      const newComment = await this.commentRepository.create(postId, comment);
+      const { content } = req.body;
+      const newComment = await this.commentRepository.create(
+        userId,
+        postId,
+        content
+      );
 
       res.status(201).json({
         success: true,
@@ -26,10 +31,13 @@ class CommentController {
   updateComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;
-      const { comment } = req.body;
+      const { content } = req.body;
+      const { userId } = req;
+      console.log("in comment controller => ", { content });
       const updatedComment = await this.commentRepository.update(
+        userId,
         commentId,
-        comment
+        content
       );
 
       res.status(200).json({
@@ -51,7 +59,7 @@ class CommentController {
       res.status(200).json({
         success: true,
         message: "comment retrieved successfully",
-        newPost: comments,
+        comments,
       });
     } catch (error) {
       console.log(error);
@@ -62,7 +70,11 @@ class CommentController {
   deleteComment = async (req, res, next) => {
     try {
       const { commentId } = req.params;
-      const deletedComment = await this.commentRepository.delete(commentId);
+      const { userId } = req;
+      const deletedComment = await this.commentRepository.delete(
+        userId,
+        commentId
+      );
 
       res.status(200).json({
         success: true,

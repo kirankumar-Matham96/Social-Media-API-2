@@ -1,0 +1,46 @@
+1. User
+  -> register - DONE
+  -> login - DONE
+  -> logout - DONE
+  -> logout from all devices - DONE
+  -> get loggedin user data (hide password) - DONE
+  -> get all users details (hide password) - DONE
+  -> update user details (hide password) - DONE
+
+2. post
+  -> create new post - DONE (TODO: save image to the mongodb database)
+  -> get all posts (every post) - DONE 
+  -> get post by id - DONE 
+  -> get posts of a user - DONE 
+  -> update post by id - DONE
+  -> delete post by id - DONE
+
+3. comment
+  -> add comment to a post - DONE
+  -> get comments for a post(give post id) - DONE
+  -> update comment - DONE
+  -> delete comment - DONE
+
+4. like
+  -> get likes for a post or comment - DONE
+  -> toggle like for a post or comment - DONE
+
+5. friendship
+  -> send a friend request - DONE (CUSTOM MADE)
+  -> get all friends of a user - DONE
+  -> get pending requests - DONE
+  -> toggle friendship by friend id - DONE
+  -> accept or reject friendship by friend id - DONE
+
+6. otp
+  -> send OTP - DONE
+  -> Verify OTP -DONE
+  -> Reset User Password - DONE
+
+
+7. Connection between collections
+  -> When a comment/like added, update the comment/like id in the related post item in the "Posts" collection - DONE
+  -> Throw proper error messages - DONE
+  -> Populate user details(name, email, gender) for posts, comments and likes - DONE
+  -> Handle 404 errors - DONE
+  -> Documentation

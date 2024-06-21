@@ -11,7 +11,9 @@ import userRouter from "./src/features/user/routes/user.routes.js";
 import postsRouter from "./src/features/posts/routes/post.routes.js";
 import commentsRouter from "./src/features/comments/routes/comment.routes.js";
 import likesRouter from "./src/features/likes/routes/like.routes.js";
-// import friendshipRouter from "";
+import friendshipRouter from "./src/features/friendships/routes/friendship.routes.js";
+import otpRouter from "./src/features/OTP/routes/otp.routes.js";
+import unknownPathHandlerMiddleware from "./src/middlewares/404Handler/unknownPathHandler.middleware.js";
 
 // initializing express
 const app = express();
@@ -31,14 +33,14 @@ app.use("/api/users", userRouter);
 app.use("/api/posts", auth, postsRouter);
 app.use("/api/comments", auth, commentsRouter);
 app.use("/api/likes", auth, likesRouter);
-// app.use("/api/friends", friendshipRouter);
-// app.use("/api/otp", otpRouter);
+app.use("/api/friends", auth, friendshipRouter);
+app.use("/api/otp", auth, otpRouter);
+
+// 404 errors
+app.use(unknownPathHandlerMiddleware);
 
 // application level error handling
 app.use(errorHandlingMiddleware);
-
-// 404 errors
-// app.user()
 
 // setting the listener
 app.listen(PORT, () => {

@@ -1,6 +1,9 @@
+// package imports
 import mongoose from "mongoose";
-import { application } from "express";
 
+/**
+ * Custom class to handle errors
+ */
 export class ApplicationError extends Error {
   constructor(message, statusCode) {
     super(message);
@@ -8,15 +11,25 @@ export class ApplicationError extends Error {
   }
 }
 
+/**
+ * Catches any error in the upper levels of the application
+ * @param {error} err
+ * @param {request} req
+ * @param {response} res
+ * @param {next middleware callback} next
+ * @returns string | null
+ */
 export const errorHandlingMiddleware = (err, req, res, next) => {
   if (err) {
     if (err instanceof ApplicationError) {
+      console.log("Got instanceof ApplicationError");
       return res
         .status(err.statusCode)
         .json({ success: false, error: err.message });
     }
 
-    if (err instanceof mongoose.Error.ValidatorError) {
+    if (err instanceof mongoose.Error.ValidationError) {
+      console.log("Got instanceof mongoose.Error.ValidatorError");
       return res.status(400).json({ success: false, error: err.message });
     }
 

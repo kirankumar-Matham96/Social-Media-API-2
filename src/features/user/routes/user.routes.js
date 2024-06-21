@@ -24,8 +24,10 @@ router.post(
 router.get("/logout", (req, res, next) =>
   userController.logoutUser(req, res, next)
 );
-router.get("/logout-all-devices", (req, res, next) =>
-  userController.logoutUserFromAllDevices(req, res, next)
+router.get(
+  "/logout-all-devices",
+  (req, res, next) => auth(req, res, next),
+  (req, res, next) => userController.logoutUserFromAllDevices(req, res, next)
 );
 router.get(
   "/get-details/:id",
@@ -37,7 +39,7 @@ router.get(
   (req, res, next) => auth(req, res, next),
   (req, res, next) => userController.getAllUsersDetails(req, res, next)
 );
-router.get(
+router.put(
   "/update-details/:id",
   (req, res, next) => auth(req, res, next),
   (req, res, next) => userController.UpdateUserDetails(req, res, next)

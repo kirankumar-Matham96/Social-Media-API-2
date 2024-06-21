@@ -10,14 +10,14 @@ class LikeController {
   getLikes = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const { type } = req.query;
+      // const { type } = req.query;
 
-      if (type != "Post" && type != "Comment") {
-        throw new ApplicationError(
-          `Type should be either Post or Comment, found ${type}`,
-          400
-        );
-      }
+      // if (type != "Post" && type != "Comment") {
+      //   throw new ApplicationError(
+      //     `Type should be either Post or Comment, found ${type}`,
+      //     400
+      //   );
+      // }
 
       const likes = await this.likeRepository.get(id);
 
@@ -34,6 +34,7 @@ class LikeController {
 
   toggleLike = async (req, res, next) => {
     try {
+      const {userId} = req;
       const { id } = req.params;
       const { type } = req.query;
 
@@ -44,7 +45,7 @@ class LikeController {
         );
       }
 
-      const { message } = await this.likeRepository.toggle(id, type);
+      const { message } = await this.likeRepository.toggle(userId, id, type);
 
       res.status(200).json({
         success: true,

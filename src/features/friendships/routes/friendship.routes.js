@@ -5,23 +5,25 @@ import express from "express";
 import FriendshipController from "../controllers/friendship.controller.js";
 
 const router = express.Router();
-const postController = new FriendshipController();
+const friendshipController = new FriendshipController();
 
-router.get("/all", (req, res, next) =>
-  postController.getAllPosts(req, res, next)
-);
-router.get("/:postId", (req, res, next) =>
-  postController.getPostById(req, res, next)
-);
-router.get("/", (req, res, next) =>
-  postController.getAllUserPosts(req, res, next)
-);
-router.post("/", (req, res, next) => postController.createPost(req, res, next));
-router.delete("/:postId", (req, res, next) =>
-  postController.deletePostById(req, res, next)
-);
-router.put("/:postId", (req, res, next) =>
-  postController.updatePostById(req, res, next)
+router.post("/send-request/:userId", (req, res, next) =>
+  friendshipController.addRequestToPendingList(req, res, next)
 );
 
+router.get("/get-friends/:userId", (req, res, next) =>
+  friendshipController.getFriendsList(req, res, next)
+);
+
+router.get("/get-pending-requests", (req, res, next) =>
+  friendshipController.getRequests(req, res, next)
+);
+
+router.get("/toggle-friendship/:friendId", (req, res, next) =>
+  friendshipController.toggleFriendship(req, res, next)
+);
+
+router.get("/response-to-request/:friendId", (req, res, next) =>
+  friendshipController.acceptOrRejectFriendRequest(req, res, next)
+);
 export default router;

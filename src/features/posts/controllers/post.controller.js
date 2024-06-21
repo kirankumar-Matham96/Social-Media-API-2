@@ -8,7 +8,10 @@ class PostController {
 
   createPost = async (req, res, next) => {
     try {
-      const newPost = await this.postRepository.create(req.body);
+      const { userId } = req;
+      req.body.imageUrl = req.file.filename;
+      const newPost = await this.postRepository.create(req.body, userId);
+      newPost.imageUrl = req.file;
 
       res
         .status(201)
@@ -64,7 +67,9 @@ class PostController {
   updatePostById = async (req, res, next) => {
     try {
       const { postId } = req.params;
-      const post = await this.postRepository.update(postId, req.body);
+      const { userId } = req;
+      req.body.imageUrl = req.file.filename;
+      const post = await this.postRepository.update(userId, postId, req.body);
       res
         .status(200)
         .json({ success: true, message: "post updated successfully", post });
@@ -77,7 +82,8 @@ class PostController {
   deletePostById = async (req, res, next) => {
     try {
       const { postId } = req.params;
-      const post = await this.postRepository.delete(postId);
+      const { userId } = req;
+      const post = await this.postRepository.delete(userId, postId);
       res
         .status(200)
         .json({ success: true, message: "post deleted successfully" });

@@ -1,7 +1,6 @@
 // package imports
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import "dotenv/config";
 
 // module imports
 import UserRepository from "../repositories/user.repository.js";
@@ -45,8 +44,10 @@ class UserController {
           name: user.name,
           email: user.email,
           gender: user.gender,
+          version: user.tokenVersion,
         },
-        process.env.SECRET_KEY
+        process.env.SECRET_KEY,
+        { expiresIn: "1 day" }
       );
 
       res
@@ -58,8 +59,13 @@ class UserController {
     }
   };
 
-  logoutUser = (req, res, next) => {
+  logoutUser = async (req, res, next) => {
     try {
+      const { authorization } = req.headers;
+      const token = authorization.split(" ")[1];
+
+      await this.userRepository.signOut(token);
+
       res.status(200).json({ success: true, message: "logged out!" });
     } catch (error) {
       console.log(error);
@@ -69,6 +75,14 @@ class UserController {
 
   logoutUserFromAllDevices = async (req, res, next) => {
     try {
+      const { userId } = req;
+      console.log("\n\n\nin controller=. ", { userId }, "\n\n\n");
+
+      await this.userRepository.signOutAll(userId);
+      res.status(200).json({
+        success: true,
+        message: "User logged out from all the devices",
+      });
     } catch (error) {
       console.log(error);
       next(error);
@@ -91,16 +105,61 @@ class UserController {
     }
   };
 
-  getAllUsersDetails = async () => {
+  getAllUsersDetails = async (req, res, next) => {
     try {
+      const users = await this.userRepository.getUsers();
+      res
+        .status(200)
+        .json({ success: true, message: "fetched all the users", users });
     } catch (error) {
       console.log(error);
       next(error);
     }
   };
 
-  UpdateUserDetails = async () => {
+  UpdateUserDetails = async (req, res, next) => {
     try {
+      const { userId } = req;
+      let { name, email, password, gender } = req.body;
+      if (gender) {
+        req.body.gender = gender.toUpperCase().slice(0, 1) + gender.slice(1);
+      }
+      const updatedUser = await this.userRepository.update(userId, req.body);
+      res.status(200).json({
+        success: true,
+        message: "user data updated successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  resetUserPassword = async (req, res, next) => {
+    try {
+      const { userId } = req;
+      // get new password
+      const { newPassword } = req.body;
+
+      // get the user and verify the user existence
+      const user = await this.userRepository.getUser(userId);
+
+      if (!user) {
+        throw new ApplicationError("user not found", 404);
+      }
+
+      // hash the password
+      const hashedPassword = await bcrypt.hash(password, 12);
+
+      // call the repoFunc to reset the password
+      const result = await this.userRepository.resetPassword(
+        userId,
+        hashedPassword
+      );
+      console.log(result);
+      res
+        .status(200)
+        .json({ success: true, message: "password updated successfully" });
     } catch (error) {
       console.log(error);
       next(error);

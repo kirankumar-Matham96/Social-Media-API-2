@@ -30,4 +30,8 @@ export const userSchema = new mongoose.Schema({
       message: "'{VALUE}' is not supported",
     },
   },
+  tokenVersion: {
+    type: Number,
+    default: 0,
+  },
 });

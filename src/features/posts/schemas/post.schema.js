@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 export const postsSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
   caption: {
     type: String,
     minLength: [5, "caption should contain min of 5 characters, got '{VALUE}'"],
@@ -12,7 +16,7 @@ export const postsSchema = new mongoose.Schema({
   },
   content: {
     type: String,
-    required: true,
+    // required: true,
   },
   comments: [
     {

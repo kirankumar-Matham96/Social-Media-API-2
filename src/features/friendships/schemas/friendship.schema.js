@@ -2,19 +2,17 @@ import mongoose from "mongoose";
 
 export const friendshipSchema = new mongoose.Schema({
   userId: {
+    unique: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
   },
   friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
-    },
+    { unique: true, type: mongoose.Schema.Types.ObjectId, ref: "Users" },
   ],
   pendingRequests: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
-    },
+    { unique: true, type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+  ],
+  unfriended: [
+    { unique: true, type: mongoose.Schema.Types.ObjectId, ref: "Users" },
   ],
 });
