@@ -118,7 +118,7 @@ POST AWAY - II/
 │ │ | ├── routes/
 │ │ | | └── comment.routes.js
 │ │ | └── schemas/
-│ │ |   └── comment.schema.js
+│ │ | └── comment.schema.js
 │ │ ├── friendship/
 │ │ | ├── controllers/
 │ │ | | └── friendship.controller.js
@@ -127,7 +127,7 @@ POST AWAY - II/
 │ │ | ├── routes/
 │ │ | | └── friendship.routes.js
 │ │ | └── schemas/
-│ │ |   └── friendship.schema.js
+│ │ | └── friendship.schema.js
 │ │ ├── likes/
 │ │ | ├── controllers/
 │ │ | | └── likes.controller.js
@@ -136,7 +136,7 @@ POST AWAY - II/
 │ │ | ├── routes/
 │ │ | | └── likes.routes.js
 │ │ | └── schemas/
-│ │ |   └── likes.schema.js
+│ │ | └── likes.schema.js
 │ │ ├── OTP/
 │ │ | ├── controllers/
 │ │ | | └── otp.controller.js
@@ -145,7 +145,7 @@ POST AWAY - II/
 │ │ | ├── routes/
 │ │ | | └── otp.routes.js
 │ │ | └── schemas/
-│ │ |   └── otp.schema.js
+│ │ | └── otp.schema.js
 │ │ ├── posts/
 │ │ │ ├── controllers/
 │ │ │ | └── post.controller.js
@@ -154,36 +154,36 @@ POST AWAY - II/
 │ │ │ ├── routes/
 │ │ │ | └── post.routes.js
 │ │ │ └── schemas/
-│ │ │   └── post.schema.js
+│ │ │ └── post.schema.js
 │ │ └── user/
-│ │   ├── controllers/
-│ │   | └── user.controller.js
-│ │   ├── repositories/
-│ │   | └── user.repository.js
-│ │   ├── routes/
-│ │   | └── user.routes.js
-│ │   └── schemas/
-│ │     └── tokenBlocklist.schema.js
-│ │     └── user.schema.js
+│ │ ├── controllers/
+│ │ | └── user.controller.js
+│ │ ├── repositories/
+│ │ | └── user.repository.js
+│ │ ├── routes/
+│ │ | └── user.routes.js
+│ │ └── schemas/
+│ │ └── tokenBlocklist.schema.js
+│ │ └── user.schema.js
 | └── middlewares/
-│   ├── 404Handler/
-|   | └── unknownPathHandler.middleware.js
-│   ├── authorization/
-|   | └── auth.middleware.js
-│   ├── errorHandling/
-|   | └── customErrorHandling.middleware.js
-│   ├── Loggers/
-|   | └── combinedLogger.middleware.js
-|   | └── userLogger.middleware.js
-│   ├── uploadFileHandling/
-|   | └── multer.middleware.js
-│   └── validations/
-│     ├── comment/
-│     | └── commentValidation.middleware.js
-│     ├── post/
-│     | └── postValidation.middleware.js
-│     └── user/
-│       └── userValidation.middleware.js
+│ ├── 404Handler/
+| | └── unknownPathHandler.middleware.js
+│ ├── authorization/
+| | └── auth.middleware.js
+│ ├── errorHandling/
+| | └── customErrorHandling.middleware.js
+│ ├── Loggers/
+| | └── combinedLogger.middleware.js
+| | └── userLogger.middleware.js
+│ ├── uploadFileHandling/
+| | └── multer.middleware.js
+│ └── validations/
+│ ├── comment/
+│ | └── commentValidation.middleware.js
+│ ├── post/
+│ | └── postValidation.middleware.js
+│ └── user/
+│ └── userValidation.middleware.js
 ├── .env
 ├── .gitignore
 ├── combined.log
