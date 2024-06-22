@@ -103,94 +103,94 @@ npm run dev
 
 ## Project Structure
 
-POST AWAY - II/
-├── src/
-│ ├── config/
-│ │ └── mongoose.config.js
-│ ├── config/
-│ │ └── mongoose.config.js
-│ ├── features/
-│ │ ├── comments/
-│ │ | ├── controllers/
-│ │ | | └── comment.controller.js
-│ │ | ├── repositories/
-│ │ | | └── comment.repository.js
-│ │ | ├── routes/
-│ │ | | └── comment.routes.js
-│ │ | └── schemas/
-│ │ | └── comment.schema.js
-│ │ ├── friendship/
-│ │ | ├── controllers/
-│ │ | | └── friendship.controller.js
-│ │ | ├── repositories/
-│ │ | | └── friendship.repository.js
-│ │ | ├── routes/
-│ │ | | └── friendship.routes.js
-│ │ | └── schemas/
-│ │ | └── friendship.schema.js
-│ │ ├── likes/
-│ │ | ├── controllers/
-│ │ | | └── likes.controller.js
-│ │ | ├── repositories/
-│ │ | | └── likes.repository.js
-│ │ | ├── routes/
-│ │ | | └── likes.routes.js
-│ │ | └── schemas/
-│ │ | └── likes.schema.js
-│ │ ├── OTP/
-│ │ | ├── controllers/
-│ │ | | └── otp.controller.js
-│ │ | ├── repositories/
-│ │ | | └── otp.repository.js
-│ │ | ├── routes/
-│ │ | | └── otp.routes.js
-│ │ | └── schemas/
-│ │ | └── otp.schema.js
-│ │ ├── posts/
-│ │ │ ├── controllers/
-│ │ │ | └── post.controller.js
-│ │ │ ├── repositories/
-│ │ │ | └── post.repository.js
-│ │ │ ├── routes/
-│ │ │ | └── post.routes.js
-│ │ │ └── schemas/
-│ │ │ └── post.schema.js
-│ │ └── user/
-│ │ ├── controllers/
-│ │ | └── user.controller.js
-│ │ ├── repositories/
-│ │ | └── user.repository.js
-│ │ ├── routes/
-│ │ | └── user.routes.js
-│ │ └── schemas/
-│ │ └── tokenBlocklist.schema.js
-│ │ └── user.schema.js
-| └── middlewares/
-│ ├── 404Handler/
-| | └── unknownPathHandler.middleware.js
-│ ├── authorization/
-| | └── auth.middleware.js
-│ ├── errorHandling/
-| | └── customErrorHandling.middleware.js
-│ ├── Loggers/
-| | └── combinedLogger.middleware.js
-| | └── userLogger.middleware.js
-│ ├── uploadFileHandling/
-| | └── multer.middleware.js
-│ └── validations/
-│ ├── comment/
-│ | └── commentValidation.middleware.js
-│ ├── post/
-│ | └── postValidation.middleware.js
-│ └── user/
-│ └── userValidation.middleware.js
-├── .env
-├── .gitignore
-├── combined.log
-├── package-lock.json
-├── package.json
-├── README.md
-└── server.js
+    POST AWAY - II/
+    ├── src/
+    │ ├── config/
+    │ │ └── mongoose.config.js
+    │ ├── config/
+    │ │ └── mongoose.config.js
+    │ ├── features/
+    │ │ ├── comments/
+    │ │ | ├── controllers/
+    │ │ | | └── comment.controller.js
+    │ │ | ├── repositories/
+    │ │ | | └── comment.repository.js
+    │ │ | ├── routes/
+    │ │ | | └── comment.routes.js
+    │ │ | └── schemas/
+    │ │ | └── comment.schema.js
+    │ │ ├── friendship/
+    │ │ | ├── controllers/
+    │ │ | | └── friendship.controller.js
+    │ │ | ├── repositories/
+    │ │ | | └── friendship.repository.js
+    │ │ | ├── routes/
+    │ │ | | └── friendship.routes.js
+    │ │ | └── schemas/
+    │ │ | └── friendship.schema.js
+    │ │ ├── likes/
+    │ │ | ├── controllers/
+    │ │ | | └── likes.controller.js
+    │ │ | ├── repositories/
+    │ │ | | └── likes.repository.js
+    │ │ | ├── routes/
+    │ │ | | └── likes.routes.js
+    │ │ | └── schemas/
+    │ │ | └── likes.schema.js
+    │ │ ├── OTP/
+    │ │ | ├── controllers/
+    │ │ | | └── otp.controller.js
+    │ │ | ├── repositories/
+    │ │ | | └── otp.repository.js
+    │ │ | ├── routes/
+    │ │ | | └── otp.routes.js
+    │ │ | └── schemas/
+    │ │ | └── otp.schema.js
+    │ │ ├── posts/
+    │ │ │ ├── controllers/
+    │ │ │ | └── post.controller.js
+    │ │ │ ├── repositories/
+    │ │ │ | └── post.repository.js
+    │ │ │ ├── routes/
+    │ │ │ | └── post.routes.js
+    │ │ │ └── schemas/
+    │ │ │ └── post.schema.js
+    │ │ └── user/
+    │ │ ├── controllers/
+    │ │ | └── user.controller.js
+    │ │ ├── repositories/
+    │ │ | └── user.repository.js
+    │ │ ├── routes/
+    │ │ | └── user.routes.js
+    │ │ └── schemas/
+    │ │ └── tokenBlocklist.schema.js
+    │ │ └── user.schema.js
+    | └── middlewares/
+    │ ├── 404Handler/
+    | | └── unknownPathHandler.middleware.js
+    │ ├── authorization/
+    | | └── auth.middleware.js
+    │ ├── errorHandling/
+    | | └── customErrorHandling.middleware.js
+    │ ├── Loggers/
+    | | └── combinedLogger.middleware.js
+    | | └── userLogger.middleware.js
+    │ ├── uploadFileHandling/
+    | | └── multer.middleware.js
+    │ └── validations/
+    │ ├── comment/
+    │ | └── commentValidation.middleware.js
+    │ ├── post/
+    │ | └── postValidation.middleware.js
+    │ └── user/
+    │ └── userValidation.middleware.js
+    ├── .env
+    ├── .gitignore
+    ├── combined.log
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    └── server.js
 
 ## API Endpoints
 
