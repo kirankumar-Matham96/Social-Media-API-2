@@ -5,12 +5,23 @@ import mongoose from "mongoose";
 import { postsSchema } from "../schemas/post.schema.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 
+// initializing post model
 const PostModel = new mongoose.model("Posts", postsSchema);
 
+/**
+ * Repository class to handle all the post related database operations.
+ */
 class PostRepository {
+  /**
+   * To get all the posts
+   * @returns Array
+   */
   getAllPosts = async () => {
     try {
+      // getting the posts
       const posts = await PostModel.find().populate("userId");
+
+      // modifying the posts object
       const modifiedPosts = posts.map((post) => ({
         postId: post._id,
         user: {
@@ -23,6 +34,7 @@ class PostRepository {
         comments: post.comments,
         likes: post.likes,
       }));
+
       return modifiedPosts;
     } catch (error) {
       console.log(error);
@@ -33,9 +45,17 @@ class PostRepository {
     }
   };
 
+  /**
+   * To get all the posts of the current user.
+   * @param {id of the loggedin use} userId
+   * @returns Array
+   */
   getUserPosts = async (userId) => {
     try {
+      // getting the posts of the user
       const posts = await PostModel.find({ userId }).populate("userId");
+
+      // modifying the posts object
       const modifiedPosts = posts.map((post) => ({
         postId: post._id,
         user: {
@@ -48,6 +68,7 @@ class PostRepository {
         comments: post.comments,
         likes: post.likes,
       }));
+
       return modifiedPosts;
     } catch (error) {
       console.log(error);
@@ -58,10 +79,15 @@ class PostRepository {
     }
   };
 
+  /**
+   * To get the post by id
+   * @param {id of the post} postId
+   * @returns Object
+   */
   get = async (postId) => {
     try {
       const post = await PostModel.findById(postId).populate("userId");
-      const modifiedPosts = {
+      const modifiedPost = {
         postId: post._id,
         user: {
           name: post.userId.name,
@@ -74,7 +100,7 @@ class PostRepository {
         likes: post.likes,
       };
 
-      return modifiedPosts;
+      return modifiedPost;
     } catch (error) {
       console.log(error);
       throw new ApplicationError(
@@ -84,8 +110,15 @@ class PostRepository {
     }
   };
 
+  /**
+   * To create a new post
+   * @param {content of the post} postDetails
+   * @param {id of the loggedin user} userId
+   * @returns Object
+   */
   create = async (postDetails, userId) => {
     try {
+      // creating the post
       const post = new PostModel({ ...postDetails, userId });
       return await post.save();
     } catch (error) {
@@ -97,6 +130,12 @@ class PostRepository {
     }
   };
 
+  /**
+   * To delete the post by id
+   * @param {id of the loggedin user} userId
+   * @param {id of the post to be deleted} postId
+   * @returns
+   */
   delete = async (userId, postId) => {
     try {
       // finding the post
@@ -113,7 +152,7 @@ class PostRepository {
 
       // deleting the post
       const post = await PostModel.findByIdAndDelete(postId);
-      return post;
+      return { message: "post deleted successfully" };
     } catch (error) {
       console.log(error);
       if (error instanceof ApplicationError) {
@@ -127,6 +166,13 @@ class PostRepository {
     }
   };
 
+  /**
+   * To update the post by id.
+   * @param {id of the loggedin user} userId
+   * @param {id of the post to be updated} postId
+   * @param {post content} postData
+   * @returns Object
+   */
   update = async (userId, postId, postData) => {
     try {
       const post = await PostModel.findById(postId);
@@ -136,9 +182,17 @@ class PostRepository {
         throw new ApplicationError("user not allowed to update this post", 403);
       }
 
-      post.caption = postData.caption;
-      post.content = postData.content;
-      post.imageUrl = postData.imageUrl;
+      // updating the post data
+      if (postData.caption) {
+        post.caption = postData.caption;
+      }
+      if (postData.content) {
+        post.content = postData.content;
+      }
+      if (postData.imageUrl) {
+        post.imageUrl = postData.imageUrl;
+      }
+      
       await post.save();
 
       return post;

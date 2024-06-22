@@ -1,17 +1,25 @@
 // module imports
 import PostRepository from "../repositories/post.repository.js";
 
+/**
+ * Controller class to handle all requests related to posts.
+ */
 class PostController {
   constructor() {
     this.postRepository = new PostRepository();
   }
 
+  /**
+   * To create a new post
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   createPost = async (req, res, next) => {
     try {
       const { userId } = req;
       req.body.imageUrl = req.file.filename;
       const newPost = await this.postRepository.create(req.body, userId);
-      newPost.imageUrl = req.file;
 
       res
         .status(201)
@@ -22,6 +30,12 @@ class PostController {
     }
   };
 
+  /**
+   * To get all posts
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getAllPosts = async (req, res, next) => {
     try {
       const posts = await this.postRepository.getAllPosts();
@@ -35,6 +49,12 @@ class PostController {
     }
   };
 
+  /**
+   * To get all posts related to current user
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getAllUserPosts = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -51,6 +71,12 @@ class PostController {
     }
   };
 
+  /**
+   * To get post by id
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getPostById = async (req, res, next) => {
     try {
       const { postId } = req.params;
@@ -64,6 +90,12 @@ class PostController {
     }
   };
 
+  /**
+   * To update post by id
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   updatePostById = async (req, res, next) => {
     try {
       const { postId } = req.params;
@@ -79,14 +111,18 @@ class PostController {
     }
   };
 
+  /**
+   * To delete post by id
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   deletePostById = async (req, res, next) => {
     try {
       const { postId } = req.params;
       const { userId } = req;
-      const post = await this.postRepository.delete(userId, postId);
-      res
-        .status(200)
-        .json({ success: true, message: "post deleted successfully" });
+      const { message } = await this.postRepository.delete(userId, postId);
+      res.status(200).json({ success: true, message: message });
     } catch (error) {
       console.log(error);
       next(error);

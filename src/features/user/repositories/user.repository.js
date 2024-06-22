@@ -7,10 +7,19 @@ import { userSchema } from "../schemas/user.schema.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 import { tokenBlockListSchema } from "../schemas/tokenBlocklist.schema.js";
 
+/**
+ * Repository class to handle all user related database operations.
+ */
 class UserRepository {
   constructor() {
     this.userModel = new mongoose.model("Users", userSchema);
   }
+
+  /**
+   * To register a new user
+   * @param {new user data to be registered} userData
+   * @returns Object
+   */
   sigUp = async (userData) => {
     try {
       const newUser = await this.userModel(userData);
@@ -28,12 +37,21 @@ class UserRepository {
     }
   };
 
+  /**
+   * To login a user
+   * @param {user email} email
+   * @returns Object
+   */
   signIn = async (email) => {
     try {
+      // finding user by email
       const user = await this.userModel.findOne({ email });
+
+      // if user does not exists
       if (!user) {
         throw new ApplicationError("user not found", 404);
       }
+
       return user;
     } catch (error) {
       console.log(error);
@@ -49,12 +67,20 @@ class UserRepository {
     }
   };
 
+  /**
+   * To logout a user.
+   *  - The JWT used for the login will be added to the blocklist.
+   * @param {JWT} token
+   */
   signOut = async (token) => {
     try {
+      // initializing the blocklist token model
       const TokenModel = new mongoose.model(
         "BlocklistTokens",
         tokenBlockListSchema
       );
+
+      // adding the token to the blocklist
       const blockedToken = TokenModel({ token });
       await blockedToken.save();
     } catch (error) {
@@ -63,11 +89,18 @@ class UserRepository {
     }
   };
 
+  /**
+   * To logout from all the devices.
+   *  - Token version will be updated for the specific user,
+   *    so that user will not be performing any operations from any device.
+   * @param {*} userId
+   */
   signOutAll = async (userId) => {
     try {
-      console.log("\n\n\n", { userId }, "\n\n\n");
+      // get user from user model
       const user = await this.userModel.findById(userId);
-      console.log("\n\n\n", { user }, "\n\n\n");
+
+      // increasing the token version
       user.tokenVersion++;
       user.save();
     } catch (error) {
@@ -76,9 +109,17 @@ class UserRepository {
     }
   };
 
+  /**
+   * To get user data.
+   * @param {id of the loggedin user} userId
+   * @returns Object
+   */
   getUser = async (userId) => {
     try {
+      // getting user
       const user = await this.userModel.findById(userId);
+
+      // modifying user object
       const userData = {
         id: user._id,
         name: user.name,
@@ -95,9 +136,16 @@ class UserRepository {
     }
   };
 
+  /**
+   * To get all the users
+   * @returns Array
+   */
   getUsers = async () => {
     try {
+      // getting the users
       const users = await this.userModel.find();
+
+      // modifying the objects
       const usersList = users.map((user) => {
         return {
           name: user.name,
@@ -116,43 +164,39 @@ class UserRepository {
     }
   };
 
+  /**
+   * To update the user
+   * @param {id of the loggedin user} userId
+   * @param {new data f the user} newData
+   * @returns Object
+   */
   update = async (userId, newData) => {
     try {
-      const updatedUser = await this.userModel.findById(userId);
+      // getting the user
+      const user = await this.userModel.findById(userId);
+      
+      /* updating the user data */
       if (newData.name) {
-        updatedUser.name = newData.name;
+        user.name = newData.name;
       }
       if (newData.email) {
-        updatedUser.email = newData.email;
+        user.email = newData.email;
       }
       if (newData.password) {
+        // hashing the new password
         const hashedPass = await bcrypt.hash(newData.password, 12);
-        updatedUser.password = hashedPass;
+        user.password = hashedPass;
       }
       if (newData.gender) {
-        updatedUser.gender = newData.gender;
+        user.gender = newData.gender;
       }
-      await updatedUser.save();
+      const updatedUser = await user.save();
 
       return updatedUser;
     } catch (error) {
       console.log(error);
       throw new ApplicationError(
         "something went wrong while updating the user details...",
-        500
-      );
-    }
-  };
-
-  resetPassword = async (userId, newPassword) => {
-    try {
-      const user = await this.userModel.findById(userId);
-      console.log({ user });
-      return user;
-    } catch (error) {
-      console.log(error);
-      throw new ApplicationError(
-        "something went wrong while resetting the user password...",
         500
       );
     }

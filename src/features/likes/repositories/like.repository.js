@@ -11,11 +11,23 @@ const LikeModel = new mongoose.model("Likes", likeSchema);
 const PostsModel = new mongoose.model("Posts", postsSchema);
 const CommentModel = new mongoose.model("Comments", commentSchema);
 
+/**
+ * Repository class to handle all like related database operations.
+ */
 class LikeRepository {
+  /**
+   * 
+   * @param {id of the logged in user} userId 
+   * @param {id of the comment or post who's like to be toggled} id 
+   * @param {type of entity (post or comment)} type 
+   * @returns Object
+   */
   toggle = async (userId, id, type) => {
     try {
+      // finding like from like model
       const like = await LikeModel.findOne({ likable: id });
 
+      // if like does not exists
       if (!like) {
         // creating a new like
         const newLike = new LikeModel({
@@ -25,8 +37,9 @@ class LikeRepository {
         });
         await newLike.save();
 
+        /* updating related entity */
+        // updating related post
         if (type === "Post") {
-          // updating related post
           const postFound = await PostsModel.findById(id);
           if (!postFound) {
             throw new ApplicationError(`post not found with the id ${id}`);
@@ -35,8 +48,8 @@ class LikeRepository {
           await postFound.save();
         }
 
+        // updating related comment
         if (type === "Comment") {
-          // updating related comment
           const commentFound = await CommentModel.findById(id);
           if (!commentFound) {
             throw new ApplicationError(`comment not found with the id ${id}`);
@@ -47,39 +60,36 @@ class LikeRepository {
 
         return { message: "liked", newLike };
       }
-
+      
+      // if the like exists already
       /* deleting the like from related post/comment */
+      // updating related post
       if (type === "Post") {
-        // updating related post
         const postFound = await PostsModel.findById(id);
         if (!postFound) {
           throw new ApplicationError(`post not found with the id ${id}`);
         }
-        console.log("in like repo => ", like._id);
         const likeIndex = postFound.likes.findIndex(
           (likeId) => likeId.toString() == like._id
         );
-
         postFound.likes.splice(likeIndex, 1);
-
         await postFound.save();
       }
 
+      // updating related comment
       if (type === "Comment") {
-        // updating related comment
         const commentFound = await CommentModel.findById(id);
         if (!commentFound) {
           throw new ApplicationError(`comment not found with the id ${id}`);
         }
-        console.log("in like repo => ", like._id);
         const likeIndex = commentFound.likes.findIndex(
           (likeId) => likeId.toString() == like._id
         );
-
         commentFound.likes.splice(likeIndex, 1);
         await commentFound.save();
       }
 
+      // deleting the like from like model
       await LikeModel.deleteOne({ likable: id });
 
       return { message: "disliked" };
@@ -97,9 +107,17 @@ class LikeRepository {
     }
   };
 
-  get = async (id, type) => {
+  /**
+   * To get the likes of a comment or post by it's id
+   * @param {id of the entity (post or comment)} id 
+   * @returns Object
+   */
+  get = async (id) => {
     try {
+      // getting likes from likes model
       const likes = await LikeModel.find({ likable: id }).populate("likedBy");
+      
+      // modifying the object
       const modifiedLikes = likes.map((like) => ({
         likeId: like._id,
         likable: like.likable,

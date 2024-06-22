@@ -43,4 +43,6 @@
   -> Throw proper error messages - DONE
   -> Populate user details(name, email, gender) for posts, comments and likes - DONE
   -> Handle 404 errors - DONE
-  -> Documentation
+  -> Logger instead of console - 
+  -> Documentation - DONE
+  -> Readme

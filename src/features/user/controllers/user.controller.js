@@ -6,11 +6,20 @@ import jwt from "jsonwebtoken";
 import UserRepository from "../repositories/user.repository.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 
+/**
+ * Controller class to handle all the requests related to user.
+ */
 class UserController {
   constructor() {
     this.userRepository = new UserRepository();
   }
 
+  /**
+   * To register a new user
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   registerUser = async (req, res, next) => {
     try {
       const { name, email, password, gender } = req.body;
@@ -27,6 +36,12 @@ class UserController {
     }
   };
 
+  /**
+   * To login an existing user
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   loginUser = async (req, res, next) => {
     try {
       const { email, password } = req.body;
@@ -44,7 +59,7 @@ class UserController {
           name: user.name,
           email: user.email,
           gender: user.gender,
-          version: user.tokenVersion,
+          version: user.tokenVersion, // to track token version(it is helpful to logout user from all the devices).
         },
         process.env.SECRET_KEY,
         { expiresIn: "1 day" }
@@ -59,6 +74,12 @@ class UserController {
     }
   };
 
+  /**
+   * To logout a user
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   logoutUser = async (req, res, next) => {
     try {
       const { authorization } = req.headers;
@@ -73,6 +94,12 @@ class UserController {
     }
   };
 
+  /**
+   * To logout a user from all the devices
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   logoutUserFromAllDevices = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -89,6 +116,12 @@ class UserController {
     }
   };
 
+  /**
+   * To get a user's details
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getUserDetails = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -105,6 +138,12 @@ class UserController {
     }
   };
 
+  /**
+   * To get all the users details
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   getAllUsersDetails = async (req, res, next) => {
     try {
       const users = await this.userRepository.getUsers();
@@ -117,6 +156,12 @@ class UserController {
     }
   };
 
+  /**
+   * To update a user
+   * @param {request} req
+   * @param {response} res
+   * @param {next middleware callback} next
+   */
   UpdateUserDetails = async (req, res, next) => {
     try {
       const { userId } = req;
@@ -129,37 +174,6 @@ class UserController {
         success: true,
         message: "user data updated successfully",
       });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  };
-
-  resetUserPassword = async (req, res, next) => {
-    try {
-      const { userId } = req;
-      // get new password
-      const { newPassword } = req.body;
-
-      // get the user and verify the user existence
-      const user = await this.userRepository.getUser(userId);
-
-      if (!user) {
-        throw new ApplicationError("user not found", 404);
-      }
-
-      // hash the password
-      const hashedPassword = await bcrypt.hash(password, 12);
-
-      // call the repoFunc to reset the password
-      const result = await this.userRepository.resetPassword(
-        userId,
-        hashedPassword
-      );
-      console.log(result);
-      res
-        .status(200)
-        .json({ success: true, message: "password updated successfully" });
     } catch (error) {
       console.log(error);
       next(error);
