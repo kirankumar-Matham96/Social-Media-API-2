@@ -2,7 +2,7 @@
 import express from "express";
 
 // module imports
-import UserValidations from "../../../middlewares/validations/user/registration.middleware.js";
+import UserValidations from "../../../middlewares/validations/user/userValidation.middleware.js";
 import UserController from "../controllers/user.controller.js";
 import { auth } from "../../../middlewares/authorization/auth.middleware.js";
 const router = express.Router();

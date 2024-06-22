@@ -1,5 +1,6 @@
 // package imports
 import mongoose from "mongoose";
+import { logger } from "../Loggers/combinedLogger.middleware.js";
 
 /**
  * Custom class to handle errors
@@ -23,6 +24,7 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
   if (err) {
     if (err instanceof ApplicationError) {
       console.log("Got instanceof ApplicationError");
+      logger.log({ level: "error", message: err.message });
       return res
         .status(err.statusCode)
         .json({ success: false, error: err.message });
@@ -30,10 +32,12 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
 
     if (err instanceof mongoose.Error.ValidationError) {
       console.log("Got instanceof mongoose.Error.ValidatorError");
+      logger.log({ level: "error", message: err.message });
       return res.status(400).json({ success: false, error: err.message });
     }
 
-    console.log("error in handler => ", err);
+    console.log("got an unhandled/server error");
+    logger.log({ level: "error", message: err.message });
 
     return res.status(500).json({
       success: false,

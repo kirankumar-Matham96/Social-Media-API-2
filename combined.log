@@ -1,0 +1,12 @@
+{"level":"error","message":"E11000 duplicate key error collection: social-media.users index: email_1 dup key: { email: \"kiran.kumar.matham@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"E11000 duplicate key error collection: social-media.users index: email_1 dup key: { email: \"kiran.kumar.matham@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"E11000 duplicate key error collection: social-media.users index: email_1 dup key: { email: \"kiran.kumar.matham@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"err.message","service":"user-service"}
+{"level":"error","message":"Email exists already. Please login!","service":"user-service"}
+{"level":"error","message":"user not found","service":"user-service"}
+{"level":"error","message":"userAdded is not defined","service":"user-service"}
+{"level":"error","message":"Email exists already. Please login!","service":"user-service"}
+{"level":"info","message":{"__v":0,"_id":"6676611bc574560dce8734b2","email":"gautami.tripathi1010@codingninjas.com","gender":"Female","name":"Gautami Tripathi","password":"$2b$12$LXwV5EPfVs2f76ZIlHi6guE2chD793ikjBN1uXvPTeCxZ/FZqwBFS","tokenVersion":0},"service":"user-service"}
+{"level":"error","message":"something went wrong while signing up...","service":"user-service"}
+{"error":{"code":11000,"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: social-media.users index: email_1 dup key: { email: \"gautami.tripathi1010@codingninjas.com\" }","index":0,"keyPattern":{"email":1},"keyValue":{"email":"gautami.tripathi1010@codingninjas.com"}},"index":0,"keyPattern":{"email":1},"keyValue":{"email":"gautami.tripathi1010@codingninjas.com"}},"level":"error","service":"user-service"}
+{"level":"error","message":"Email exists already. Please login!","service":"user-service"}

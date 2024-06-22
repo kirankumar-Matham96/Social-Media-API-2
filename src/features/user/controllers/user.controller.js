@@ -31,7 +31,6 @@ class UserController {
         .status(200)
         .json({ success: true, message: "user added successfully", newUser });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

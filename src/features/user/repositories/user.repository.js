@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { userSchema } from "../schemas/user.schema.js";
 import { ApplicationError } from "../../../middlewares/errorHandling/customErrorHandling.middleware.js";
 import { tokenBlockListSchema } from "../schemas/tokenBlocklist.schema.js";
+import { logger } from "../../../middlewares/Loggers/userLogger.middleware.js";
 
 /**
  * Repository class to handle all user related database operations.
@@ -26,7 +27,8 @@ class UserRepository {
       const userAdded = await newUser.save();
       return userAdded;
     } catch (error) {
-      console.log({ error });
+      // logging error
+      logger.log({ level: "error", error: error });
       if (error.code === 11000) {
         throw new ApplicationError("Email exists already. Please login!", 409);
       }
@@ -54,8 +56,7 @@ class UserRepository {
 
       return user;
     } catch (error) {
-      console.log(error);
-
+      logger.log({ level: "error", error: error });
       if (error instanceof ApplicationError) {
         throw error;
       }
@@ -84,7 +85,7 @@ class UserRepository {
       const blockedToken = TokenModel({ token });
       await blockedToken.save();
     } catch (error) {
-      console.log(error);
+      logger.log({ level: "error", error: error });
       throw error;
     }
   };
@@ -104,7 +105,7 @@ class UserRepository {
       user.tokenVersion++;
       user.save();
     } catch (error) {
-      console.log(error);
+      logger.log({ level: "error", error: error });
       throw error;
     }
   };
@@ -128,7 +129,7 @@ class UserRepository {
       };
       return userData;
     } catch (error) {
-      console.log(error);
+      logger.log({ level: "error", error: error });
       throw new ApplicationError(
         "something went wrong while fetching user details...",
         500
@@ -156,7 +157,7 @@ class UserRepository {
 
       return usersList;
     } catch (error) {
-      console.log(error);
+      logger.log({ level: "error", error: error });
       throw new ApplicationError(
         "something went wrong while fetching user details...",
         500
@@ -174,7 +175,7 @@ class UserRepository {
     try {
       // getting the user
       const user = await this.userModel.findById(userId);
-      
+
       /* updating the user data */
       if (newData.name) {
         user.name = newData.name;
@@ -194,7 +195,7 @@ class UserRepository {
 
       return updatedUser;
     } catch (error) {
-      console.log(error);
+      logger.log({ level: "error", error: error });
       throw new ApplicationError(
         "something went wrong while updating the user details...",
         500
