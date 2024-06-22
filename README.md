@@ -1,4 +1,4 @@
-# Post Away App (NODE-Repository-API)
+# Social Media API (NODE-Repository-API)
 
 A Node.js application to replicate social media platform. Built with the repository-API pattern.
 
@@ -7,7 +7,6 @@ A Node.js application to replicate social media platform. Built with the reposit
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
@@ -17,42 +16,47 @@ A Node.js application to replicate social media platform. Built with the reposit
 ## Features
 
 - User
-  -- Sign up
-  -- Sign in
-  -- Sign out
-  -- Sign out from all devices
-  -- Get user details
-  -- Get all users
-  -- Update user details
+
+  - Sign up
+  - Sign in
+  - Sign out
+  - Sign out from all devices
+  - Get user details
+  - Get all users
+  - Update user details
 
 - Post
-  -- Create
-  -- Get post by id
-  -- Get user posts
-  -- Get all posts
-  -- Update (only post creator can do)
-  -- Delete (only post creator can do)
+
+  - Create
+  - Get post by id
+  - Get user posts
+  - Get all posts
+  - Update (only post creator can do)
+  - Delete (only post creator can do)
 
 - Comment
-  -- Create
-  -- Get comments by post
-  -- Update (only post creator or comment creator can do)
-  -- Delete (only post creator or comment creator can do)
+
+  - Create
+  - Get comments by post
+  - Update (only post creator or comment creator can do)
+  - Delete (only post creator or comment creator can do)
 
 - Like
-  -- Get likes of comment/post
-  -- toggle like of comment/post
+
+  - Get likes of comment/post
+  - toggle like of comment/post
 
 - Friendship
-  -- Send friend request
-  -- Get all friend requests
-  -- Get all friends
-  -- Toggle friendship (add or remove from friend list)
-  -- Accept or Reject friend request
+
+  - Send friend request
+  - Get all friend requests
+  - Get all friends
+  - Toggle friendship (add or remove from friend list)
+  - Accept or Reject friend request
 
 - OTP based password reset
-  -- Send OTP to reset password
-  -- Verify the OTP and update the password
+  - Send OTP to reset password
+  - Verify the OTP and update the password
 
 ## Prerequisites
 
@@ -66,7 +70,6 @@ A Node.js application to replicate social media platform. Built with the reposit
    ```bash
    git clone https://github.com/kirankumar-Matham96/Social-Media-API-2.git
 
-   cd job-portal-app
    ```
 
 2. Install the dependencies:
@@ -84,14 +87,17 @@ A Node.js application to replicate social media platform. Built with the reposit
 
 4. Start the application:
 
-  - if dev:
-   ```bash
-   npm run dev
-   ```
-  - if production
-  ```bash
-   npm run start
-   ```
+- if dev:
+
+```bash
+npm run dev
+```
+
+- if production
+
+```bash
+ npm run start
+```
 
 5. Open your browser and navigate to `http://localhost:3000`
 
@@ -150,15 +156,15 @@ POST AWAY - II/
 │ │ │ └── schemas/
 │ │ │   └── post.schema.js
 │ │ └── user/
-│ │ ├── controllers/
-│ │ | └── user.controller.js
-│ │ ├── repositories/
-│ │ | └── user.repository.js
-│ │ ├── routes/
-│ │ | └── user.routes.js
-│ │ └── schemas/
-│ │   └── tokenBlocklist.schema.js
-│ │   └── user.schema.js
+│ │   ├── controllers/
+│ │   | └── user.controller.js
+│ │   ├── repositories/
+│ │   | └── user.repository.js
+│ │   ├── routes/
+│ │   | └── user.routes.js
+│ │   └── schemas/
+│ │     └── tokenBlocklist.schema.js
+│ │     └── user.schema.js
 | └── middlewares/
 │   ├── 404Handler/
 |   | └── unknownPathHandler.middleware.js
