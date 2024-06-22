@@ -84,8 +84,13 @@ A Node.js application to replicate social media platform. Built with the reposit
 
 4. Start the application:
 
+  - if dev:
    ```bash
-   npm start
+   npm run dev
+   ```
+  - if production
+  ```bash
+   npm run start
    ```
 
 5. Open your browser and navigate to `http://localhost:3000`
