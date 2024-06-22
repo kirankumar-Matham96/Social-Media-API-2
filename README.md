@@ -79,11 +79,11 @@ A Node.js application to replicate social media platform. Built with the reposit
 3. Set up environment variables:
 
 - Create a `.env` file in the root directory and add the following:
-  `env
-  PORT=8000
-  DB_URL=mongodb://localhost:27017/social-media
-  SECRET_KEY='your_secret_key'
-`
+  ```bash
+    PORT=8000
+    DB_URL=mongodb://localhost:27017/social-media
+    SECRET_KEY='your_secret_key'
+  ```
 
 4. Start the application:
 
